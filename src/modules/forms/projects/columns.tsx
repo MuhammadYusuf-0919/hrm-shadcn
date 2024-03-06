@@ -1,20 +1,16 @@
-import { ColumnDef } from '@tanstack/react-table';
-
-import { Checkbox } from '@/components/ui/checkbox';
-
+import { priorities } from '@/data';
+import { projectType } from '@/data/types';
 import Iconify from '@/components/iconify';
 import Label from '@/components/custom-label';
+import { projectStatus } from '@/data/status';
+import { ProjectsFormTypes } from '@/lib/schema';
+import { ColumnDef } from '@tanstack/react-table';
+import { Checkbox } from '@/components/ui/checkbox';
 import { statusColors } from '@/utils/statusColors';
-import { Task } from '@/modules/crud-module/crud-table/data/schema';
-import {
-  priorities,
-  projectStatus,
-  types,
-} from '@/modules/crud-module/crud-table/data/data';
 import { DataTableRowActions } from '@/modules/crud-module/crud-table/components/data-table-row-actions';
 import { DataTableColumnHeader } from '@/modules/crud-module/crud-table/components/data-table-column-header';
 
-export const columns: ColumnDef<Task>[] = [
+export const columns: ColumnDef<ProjectsFormTypes>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -40,11 +36,11 @@ export const columns: ColumnDef<Task>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'name',
+    accessorKey: 'projectName',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Name" />
+      <DataTableColumnHeader column={column} title="Project Name" />
     ),
-    cell: ({ row }) => <div className="w-[25%]">{row.getValue('name')}</div>,
+    cell: ({ row }) => <div className="w-[80px]">{row.getValue('projectName')}</div>,
   },
   {
     accessorKey: 'userId',
@@ -56,12 +52,14 @@ export const columns: ColumnDef<Task>[] = [
     // enableHiding: false,
   },
   {
-    accessorKey: 'type',
+    accessorKey: 'projectType',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Type" />
+      <DataTableColumnHeader column={column} title="Project Type" />
     ),
     cell: ({ row }) => {
-      const type = types.find((type) => type.value === row.getValue('type'));
+      const type = projectType.find(
+        (type) => type.value === row.getValue('projectType')
+      );
 
       if (!type) {
         return null;
@@ -75,8 +73,8 @@ export const columns: ColumnDef<Task>[] = [
               className="mr-2 h-4 w-4 text-muted-foreground"
             />
           )} */}
-          {/* <span>{type.label}</span> */}
-          <Label color={statusColors(type.value)}>{type.label}</Label>
+          <span>{type.label}</span>
+          {/* <Label color={statusColors(type.value)}>{type.label}</Label> */}
         </div>
       );
     },
@@ -99,14 +97,7 @@ export const columns: ColumnDef<Task>[] = [
       }
       return (
         <div className="flex items-center">
-          {status.icon && (
-            <Iconify
-              width={20}
-              icon={`radix-icons:${status.icon}`}
-              className="mr-2 h-4 w-4 text-muted-foreground"
-            />
-          )}
-          <span>{status.label}</span>
+          <Label color={statusColors(status.value)}>{status.label}</Label>
         </div>
       );
     },

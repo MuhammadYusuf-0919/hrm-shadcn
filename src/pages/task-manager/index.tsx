@@ -1,50 +1,31 @@
+import { tasksSchema } from '@/lib/schema';
+import TasksFields from '@/modules/forms/tasks/fields';
+import { columns } from '@/modules/forms/tasks/columns';
 import CrudTable from '@/modules/crud-module/crud-table';
-import { usersSchema } from '@/lib/validations';
-import UserFields from '@/modules/forms/users/fields';
-import { columns } from '@/modules/forms/users/columns';
-
-export type Payment = {
-  id: string;
-  amount: number;
-  status: 'pending' | 'processing' | 'success' | 'failed';
-  email: string;
-};
 
 function TaskManager() {
   const entity = 'tasks';
-  const endpoint = 'tasks';
+  const Labels = {
+    PANEL_TITLE: 'Task Panel',
+    DATATABLE_TITLE: 'Tasks List',
+    ADD_NEW_ENTITY: 'Add new task',
+    ENTITY_NAME: 'task',
+    CREATE_ENTITY: 'Create task',
+    UPDATE_ENTITY: 'Update task',
 
-  const searchConfig = {
-    displayLabels: ['name', 'surname'],
-    searchFields: 'email,name,surname',
-    outputValue: '_id',
+    RECORD_ENTITY: 'record_user',
   };
 
-  const PANEL_TITLE = 'Task Panel';
-  const dataTableTitle = 'Task Lists';
-  const entityDisplayLabels = ['email'];
-
-  const ADD_NEW_ENTITY = 'Add new task';
-  const DATATABLE_TITLE = 'Tasks List';
-  const ENTITY_NAME = 'task';
-  const CREATE_ENTITY = 'Create task';
-  const UPDATE_ENTITY = 'Update task';
+  const configPage = {
+    entity,
+    ...Labels,
+  };
 
   const config = {
-    entity,
     columns,
-    endpoint,
-    PANEL_TITLE,
-    ENTITY_NAME,
-    searchConfig,
-    CREATE_ENTITY,
-    UPDATE_ENTITY,
-    ADD_NEW_ENTITY,
-    dataTableTitle,
-    DATATABLE_TITLE,
-    entityDisplayLabels,
-    formFields: UserFields,
-    formSchema: usersSchema,
+    ...configPage,
+    formFields: TasksFields,
+    formSchema: tasksSchema,
   };
   return <CrudTable config={config} />
 }

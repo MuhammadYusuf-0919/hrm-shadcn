@@ -48,7 +48,7 @@ const AppRoutes = () => {
     <BrowserRouter>
       <Routes>
         <Route
-          path="/sign-in"
+          path="/login"
           element={
             <AuthLayout>
               <Login />

@@ -7,12 +7,14 @@ interface ConfigState {
   formSchema?: any;
   formFields?: any;
   update?: boolean;
+  UPDATE_ENTITY: string;
   initialState?: any;
   captions?: string[];
   ADD_NEW_ENTITY?: string;
 }
 
 const initialState: ConfigState = {
+  UPDATE_ENTITY: '',
   entity: '',
   captions: [],
   create: false,

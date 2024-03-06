@@ -20,31 +20,26 @@ const Label = forwardRef<HTMLSpanElement, LabelProps>(
     startIcon,
     endIcon,
     className,
-    sx,
     ...other
   }) => {
     const iconStyle = {
       width: 16,
-      height: 16,
+      height: 18,
       '& svg, img': { width: 1, height: 1, objectFit: 'cover' },
     };
 
     return (
       <StyledLabel
-        ownerState={{ color, variant, className }}
-        className={`${startIcon ? 'pl-3' : ''} ${endIcon ? 'pr-3' : ''} ${
-          sx ?? ''
-        }`}
         {...other}
+        ownerState={{ color, variant, className }}
+        className={`${startIcon ? 'pl-3' : ''} ${endIcon ? 'pr-3' : ''}`}
       >
         {startIcon && (
           <span className={`mr-3`} style={iconStyle}>
             {startIcon}
           </span>
         )}
-
         {children}
-
         {endIcon && (
           <span className={`ml-3`} style={iconStyle}>
             {endIcon}

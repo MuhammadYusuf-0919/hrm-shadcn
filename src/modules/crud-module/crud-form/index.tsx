@@ -8,9 +8,9 @@ import { Form } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { Card, CardFooter, CardHeader } from '@/components/ui/card';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { useAddEntityMutation, useUpdateEntityMutation } from '@/redux/crud';
+import { Card, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 
 function CrudForm() {
   const {
@@ -19,9 +19,11 @@ function CrudForm() {
     update,
     formSchema,
     initialState,
+    UPDATE_ENTITY,
     ADD_NEW_ENTITY,
     formFields: FormElements,
   } = useSelector((state: RootState) => state.config);
+
   const navigate = useNavigate();
   const formMethods = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -73,13 +75,17 @@ function CrudForm() {
   return (
     <Form {...formMethods}>
       <form onSubmit={handleSubmit(onSubmit, onError)}>
-        <Card className="h-[80vh] relative">
-          <CardHeader>{ADD_NEW_ENTITY}</CardHeader>
-          <ScrollArea className="w-full h-[54vh] border md:h-[60vh]">
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-2xl">
+              {create ? ADD_NEW_ENTITY : UPDATE_ENTITY}
+            </CardTitle>
+          </CardHeader>
+          <ScrollArea className="w-full h-[64vh] border-t border-b md:h-[58vh] py-4">
             <FormElements data={{ form: formMethods, loading }} />
             <ScrollBar orientation="vertical" />
           </ScrollArea>
-          <CardFooter className="flex justify-end pt-4 px-8 mb-4">
+          <CardFooter className="flex justify-end py-4 px-8">
             <Button
               type="submit"
               disabled={!isDirty || loading}

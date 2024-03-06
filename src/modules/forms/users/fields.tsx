@@ -35,25 +35,22 @@ function UserFields({ data }: { data: any }) {
     formState: { errors },
   } = form;
 
-  const [imageSrc, setImageSrc] = React.useState('');
+  const [preview, setPreview] = React.useState('');
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files![0];
-    const reader = new FileReader();
+  function getImageData(event: React.ChangeEvent<HTMLInputElement>) {
+    // FileList is immutable, so we need to create a new one
+    const dataTransfer = new DataTransfer();
 
-    reader.onload = (event) => {
-      setImageSrc(event.target.result as string);
-    };
+    // Add newly uploaded images
+    Array.from(event.target.files!).forEach((image) =>
+      dataTransfer.items.add(image)
+    );
 
-    if (file) {
-      reader.readAsDataURL(file);
-    }
-  };
-  React.useEffect(() => {
-    if (control?._fields.imgUrl.mount) {
-      handleFileChange(control?._fields?.imgUrl?._f.value);
-    }
-  }, [control?._fields.imgUrl]);
+    const files = dataTransfer.files;
+    const displayUrl = URL.createObjectURL(event.target.files![0]);
+
+    return { files, displayUrl };
+  }
 
   return (
     <CardContent className="relative p-2 sm:p-4 md:p-6 mt-0">
@@ -62,16 +59,16 @@ function UserFields({ data }: { data: any }) {
           <FormField
             name="imgUrl"
             control={control}
-            render={({ field }) => (
+            render={({ field: { onChange, value, ...rest } }) => (
               <FormItem className="text-center">
-                <FormLabel htmlFor="picture">
+                <FormLabel htmlFor="picture" className="w-[30%] flex">
                   <Avatar
                     className={`w-32 h-32 overflow-visible relative border border-dashed border-2 border-${
                       errors.imgUrl ? 'red-500' : 'primary'
                     } p-2`}
                   >
                     <AvatarImage
-                      src={imageSrc}
+                      src={preview}
                       alt="user_image"
                       className="rounded-full"
                     />
@@ -89,10 +86,15 @@ function UserFields({ data }: { data: any }) {
                 </FormLabel>
                 <FormControl>
                   <Input
-                    {...field}
+                    {...rest}
                     type="file"
                     id="picture"
                     className="hidden"
+                    onChange={(event) => {
+                      const { files, displayUrl } = getImageData(event);
+                      setPreview(displayUrl);
+                      onChange(files);
+                    }}
                   />
                 </FormControl>
                 <FormMessage />
@@ -100,19 +102,19 @@ function UserFields({ data }: { data: any }) {
             )}
           />
         </div>
-        <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 p-4">
+        <div className="w-full grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4 p-4 items-start">
           <div className="grid gap-y-4 item">
-            {/* name */}
+            {/* fullName */}
             <FormField
-              name="name"
+              name="fullName"
               control={control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>Full Name</FormLabel>
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="Enter user name"
+                      placeholder="Enter user Full Name"
                       {...field}
                     />
                   </FormControl>
@@ -284,11 +286,11 @@ function UserFields({ data }: { data: any }) {
             />
             {/* birthday */}
             <FormField
-              name="brithday"
+              name="birthday"
               control={control}
               render={({ field }) => (
                 <FormItem className="block flex-col">
-                  <FormLabel>Date of birth</FormLabel>
+                  <FormLabel>Date of birthday</FormLabel>
                   <Popover>
                     <PopoverTrigger asChild>
                       <FormControl>

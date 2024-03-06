@@ -1,6 +1,11 @@
+import { Button } from "@/components/ui/button"
+
 function NotFound() {
   return (
-    <div>NotFound</div>
+    <div>
+      <h3>Not Found</h3>
+      <Button>Home</Button>
+    </div>
   )
 }
 

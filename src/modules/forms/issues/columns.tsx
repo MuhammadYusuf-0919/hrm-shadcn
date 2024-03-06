@@ -3,18 +3,16 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Checkbox } from '@/components/ui/checkbox';
 
 import Iconify from '@/components/iconify';
-import Label from '@/components/custom-label';
-import { statusColors } from '@/utils/statusColors';
-import { Task } from '@/modules/crud-module/crud-table/data/schema';
 import {
   priorities,
   reasonBug,
   types,
-} from '@/modules/crud-module/crud-table/data/data';
+} from '@/data';
 import { DataTableRowActions } from '@/modules/crud-module/crud-table/components/data-table-row-actions';
 import { DataTableColumnHeader } from '@/modules/crud-module/crud-table/components/data-table-column-header';
+import { IssuesFormTypes } from '@/lib/schema';
 
-export const columns: ColumnDef<Task>[] = [
+export const columns: ColumnDef<IssuesFormTypes>[] = [
   {
     id: 'select',
     header: ({ table }) => (

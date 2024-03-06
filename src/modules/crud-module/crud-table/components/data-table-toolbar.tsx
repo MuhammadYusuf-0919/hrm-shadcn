@@ -1,14 +1,14 @@
-import { Table } from '@tanstack/react-table';
-
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-
-import Iconify from '@/components/iconify';
-import { priorities, reasonBug, roles, types, userStatus } from '../data/data';
-import { DataTableFacetedFilter } from './data-table-faceted-filter';
 import { Link } from 'react-router-dom';
-import { setConfig } from '@/redux/config';
 import { useDispatch } from 'react-redux';
+import Iconify from '@/components/iconify';
+import { setConfig } from '@/redux/config';
+import { projectType } from '@/data/types';
+import { Table } from '@tanstack/react-table';
+import { Input } from '@/components/ui/input';
+import { Button, buttonVariants } from '@/components/ui/button';
+import { priorities, reasonBug, roles } from '@/data';
+import { DataTableFacetedFilter } from './data-table-faceted-filter';
+import { cn } from '@/lib/utils';
 
 interface Task {
   id: number;
@@ -38,7 +38,7 @@ export function DataTableToolbar<TData extends Task>({
     <div className="grid md:flex items-center justify-unset md:justify-between gap-y-2">
       <div className="grid sm:flex flex-1 items-center gap-2">
         <Input
-          placeholder="Filter tasks..."
+          placeholder={`Filter ${config.entity}...`}
           value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
           onChange={(event) =>
             table.getColumn('name')?.setFilterValue(event.target.value)
@@ -53,14 +53,14 @@ export function DataTableToolbar<TData extends Task>({
               options={roles}
             />
           )}
-          {table.getColumn('type') && (
+          {table.getColumn('projectType') && (
             <DataTableFacetedFilter
-              column={table.getColumn('type')}
-              title="Type"
-              options={types}
+              column={table.getColumn('projectType')}
+              title="Project Type"
+              options={projectType}
             />
           )}
-           {table.getColumn('reasonBug') && (
+          {table.getColumn('reasonBug') && (
             <DataTableFacetedFilter
               column={table.getColumn('reasonBug')}
               title="Reason Bug"
@@ -71,10 +71,10 @@ export function DataTableToolbar<TData extends Task>({
             <DataTableFacetedFilter
               column={table.getColumn('status')}
               title="Status"
-              options={userStatus}
+              options={config.statusData}
             />
           )}
-           {table.getColumn('priority') && (
+          {table.getColumn('priority') && (
             <DataTableFacetedFilter
               column={table.getColumn('priority')}
               title="Priority"
@@ -97,12 +97,13 @@ export function DataTableToolbar<TData extends Task>({
           )}
         </div>
       </div>
-      {/* <DataTableViewOptions table={table} /> */}
-      <Link to={`/${config.entity}/create`} className='contents'>
-        <Button onClick={handleConfig}>
-          <Iconify icon="radix-icons:plus" width={20} className="mr-2" />
-          {config.CREATE_ENTITY}
-        </Button>
+      <Link
+        onClick={handleConfig}
+        to={`/${config.entity}/create`}
+        className={cn(buttonVariants({ variant: 'default' }))}
+      >
+        <Iconify icon="radix-icons:plus" width={20} className="mr-2" />
+        {config.CREATE_ENTITY}
       </Link>
     </div>
   );

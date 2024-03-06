@@ -62,12 +62,20 @@ export function DataTableRowActions<TData>({
             Edit
           </DropdownMenuItem>
         </Link>
-        <Link to={`/projects/${row.original.id}/tasks`}>
-          <DropdownMenuItem disabled={isLoading}>Open Task</DropdownMenuItem>
-        </Link>
-        <Link to={`/projects/${row.original.id}/issues`}>
-          <DropdownMenuItem disabled={isLoading}>Open Issue</DropdownMenuItem>
-        </Link>
+        {entity === 'projects' && (
+          <>
+            <Link to={`/projects/${row.original.id}/tasks`}>
+              <DropdownMenuItem disabled={isLoading}>
+                Open Task
+              </DropdownMenuItem>
+            </Link>
+            <Link to={`/projects/${row.original.id}/issues`}>
+              <DropdownMenuItem disabled={isLoading}>
+                Open Issue
+              </DropdownMenuItem>
+            </Link>
+          </>
+        )}
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleDelete}>
           Delete

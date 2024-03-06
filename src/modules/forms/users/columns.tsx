@@ -1,16 +1,15 @@
+import { roles } from '@/data';
+import { userStatus } from '@/data/status';
+import Iconify from '@/components/iconify';
+import { UsersFormTypes } from '@/lib/schema';
+import Label from '@/components/custom-label';
 import { ColumnDef } from '@tanstack/react-table';
-
 import { Checkbox } from '@/components/ui/checkbox';
-
-import { roles, userStatus } from '@/modules/crud-module/crud-table/data/data';
-import { Task } from '@/modules/crud-module/crud-table/data/schema';
+import { statusColors } from '@/utils/statusColors';
 import { DataTableColumnHeader } from '@/modules/crud-module/crud-table/components/data-table-column-header';
 import { DataTableRowActions } from '@/modules/crud-module/crud-table/components/data-table-row-actions';
-import Iconify from '@/components/iconify';
-import { statusColors } from '@/utils/statusColors';
-import Label from '@/components/custom-label';
 
-export const columns: ColumnDef<Task>[] = [
+export const columns: ColumnDef<UsersFormTypes>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -45,11 +44,11 @@ export const columns: ColumnDef<Task>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'name',
+    accessorKey: 'fullName',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Name" />
+      <DataTableColumnHeader column={column} title="Full Name" />
     ),
-    cell: ({ row }) => <div className="w-[25%]">{row.getValue('name')}</div>,
+    cell: ({ row }) => <div className="w-[25%]">{row.getValue('fullName')}</div>,
   },
   {
     accessorKey: 'userId',
@@ -97,6 +96,8 @@ export const columns: ColumnDef<Task>[] = [
     cell: ({ row }) => (
       <div className="w-[20%]">{row.getValue('phoneNumber')}</div>
     ),
+    enableSorting: false,
+    enableHiding: false,
   },
   {
     accessorKey: 'email',
@@ -104,6 +105,8 @@ export const columns: ColumnDef<Task>[] = [
       <DataTableColumnHeader column={column} title="Email" />
     ),
     cell: ({ row }) => <div className="w-[20%]">{row.getValue('email')}</div>,
+    enableSorting: false,
+    enableHiding: false,
   },
   {
     accessorKey: 'status',
@@ -126,7 +129,7 @@ export const columns: ColumnDef<Task>[] = [
               className="mr-2 h-4 w-4 text-muted-foreground"
             />
           )}
-          <span>{status.label}</span>
+          <Label color={statusColors(status.value)}>{status.label}</Label>
         </div>
       );
     },

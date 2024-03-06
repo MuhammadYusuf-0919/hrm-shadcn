@@ -3,7 +3,7 @@ import { store } from '@/redux';
 import AppRoutes from '@/routes';
 import { Provider } from 'react-redux';
 import { Toaster } from '@/components/toaster';
-import { ThemeProvider } from '@/settings/toggle-theme';
+import { ThemeProvider } from '@/hooks/useMode';
 
 function App() {
   return (

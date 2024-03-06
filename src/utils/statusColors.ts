@@ -6,30 +6,31 @@ export const statusColors = (status: string) => {
         "active",
         // "meeting",
         "completed",
-        "employee"
+        "employee",
+        'done'
     ];
 
     // Warning statuslar
-    const warningStatus = ["pending"];
+    const warningStatus = ["pending", 'in progress'];
 
     // Error statuslar
-    const errorStatus = ["banned", "overdue", "cancelled", "not-connect"];
+    const errorStatus = ["banned", "overdue", "cancelled", "not-connect", "failed"];
 
     // Info statuslar
-    const infoStatus = ["published", "sent", "meeting", "Downloaded"];
+    const infoStatus = ["published", "sent", "meeting", "downloaded", 'processing'];
 
     // Secondary statuslar
-    const secondaryStatus = ["sent", "inactive", "rejected", 'manager'];
+    const secondaryStatus = ["sent", "inactive", "rejected", 'manager', 'not-started'];
 
     // Default status
     const defaultStatus = ["all", "draft", "no status yet", "refund"];
 
     // Statuslarni tekshirib va ulang
-    if (successStatus.includes(lowerStatuse)) return "green";
-    if (warningStatus.includes(lowerStatuse)) return "amber";
-    if (errorStatus.includes(lowerStatuse)) return "red";
-    if (infoStatus.includes(lowerStatuse)) return "cyan";
-    if (secondaryStatus.includes(lowerStatuse)) return "gray";
+    if (successStatus.includes(lowerStatuse)) return "success";
+    if (warningStatus.includes(lowerStatuse)) return "warning";
+    if (errorStatus.includes(lowerStatuse)) return "error";
+    if (infoStatus.includes(lowerStatuse)) return "info";
+    if (secondaryStatus.includes(lowerStatuse)) return "default";
     if (defaultStatus.includes(lowerStatuse)) return "default";
 
     // Hali aniqlanmagan status uchun default

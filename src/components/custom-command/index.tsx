@@ -1,6 +1,4 @@
 import * as React from 'react';
-import { Check, ChevronsUpDown, Search } from 'lucide-react';
-
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
@@ -15,88 +13,93 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { Input } from '../ui/input';
+import Iconify from '../iconify';
+import { useFetchEntityQuery } from '@/redux/crud';
 
-const frameworks = [
-  {
-    value: 'next.js',
-    label: 'Next.js',
-  },
-  {
-    value: 'sveltekit',
-    label: 'SvelteKit',
-  },
-  {
-    value: 'nuxt.js',
-    label: 'Nuxt.js',
-  },
-  {
-    value: 'remix',
-    label: 'Remix',
-  },
-  {
-    value: 'astro',
-    label: 'Astro',
-  },
-];
+// Define the interface for props passed to the CustomCombobox component
+interface Props {
+  field: any;
+  type?: string;
+  label: string;
+}
 
-export function ComboboxDemo() {
-  const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState('');
+// CustomCombobox component definition
+function CustomCombobox({ label, type = 'user', field }: Props): JSX.Element {
+  // State to manage the open/close state of the popover
+  const [open, setOpen] = React.useState<boolean>(false);
+  // State to manage the selected value
+  const [value, setValue] = React.useState<string>('');
+  const entity =
+    field.name === 'projectId'
+      ? 'projects'
+      : field.name === 'taskId'
+      ? 'tasks'
+      : 'users';
+  const { data, isLoading } = useFetchEntityQuery(entity);
+  console.log('entity: ', data);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        {/* <Button
+        <Button
+          id="combobox"
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className="w-full lg:w-4/5 justify-between"
         >
-          {value
-            ? frameworks.find((framework) => framework.value === value)?.label
-            : 'Select framework...'}
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-        </Button> */}
-        <div className="flex items-center border px-3" cmdk-input-wrapper="">
-          <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
-          <Input
-            className={cn(
-              'flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50 border-none focus-visible:ring-none focus-visible:ring-offset-none'
-            )} 
-            type="search"
-            role="combobox"
-            aria-expanded={open}
-            placeholder="Search framework..."
+          {/* {value && data
+            ? (data.find((option) => option.id === value) || {}).fullName ||
+              (data.find((option) => option.id === value) || {}).projectName ||
+              (data.find((option) => option.id === value) || {}).taskName
+            : `Select ${label}...`} */}
+          {value && data
+            ? data.find((option) => option.id === value)?.id
+            : `Select ${label}...`}
+          <Iconify
+            icon={`radix-icons:${type === 'id' ? 'id-card' : 'avatar'}`}
+            className="text-xxl text-gray-500"
           />
-        </div>
+        </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className="w-auto p-0">
         <Command>
-          {/* <CommandInput aria-expanded={open} placeholder="Search framework..." /> */}
-          <CommandEmpty>No framework found.</CommandEmpty>
+          <CommandInput {...field} placeholder={`Search for ${label} ...`} />
+          <CommandEmpty>{`No ${label} found.`}</CommandEmpty>
           <CommandGroup>
-            {frameworks.map((framework) => (
-              <CommandItem
-                key={framework.value}
-                value={framework.value}
-                onSelect={(currentValue) => {
-                  setValue(currentValue === value ? '' : currentValue);
-                  setOpen(false);
-                }}
-              >
-                <Check
-                  className={cn(
-                    'mr-2 h-4 w-4',
-                    value === framework.value ? 'opacity-100' : 'opacity-0'
-                  )}
-                />
-                {framework.label}
-              </CommandItem>
-            ))}
+            {data ? (
+              data.map((option) => (
+                <CommandItem
+                  key={option.id}
+                  value={option.id}
+                  onSelect={(currentValue) => {
+                    setValue(currentValue === value ? '' : currentValue);
+                    setOpen(false);
+                  }}
+                >
+                  <Iconify
+                    icon="radix-icons:check"
+                    className={cn(
+                      'mr-2 h-4 w-4',
+                      value === option.id ? 'opacity-100' : 'opacity-0'
+                    )}
+                  />
+
+                  {option?.projectName || option?.taskName || option?.fullName}
+                </CommandItem>
+              ))
+            ) : isLoading ? (
+              <div>Loading...</div>
+            ) : (
+              <div className="w-full text-center py-4">
+                No data {field.name}
+              </div>
+            )}
           </CommandGroup>
         </Command>
       </PopoverContent>
     </Popover>
   );
 }
+
+export default CustomCombobox;

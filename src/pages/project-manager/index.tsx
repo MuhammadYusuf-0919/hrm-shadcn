@@ -1,34 +1,11 @@
+import { projectStatus } from '@/data/status';
+import { projectsSchema } from '@/lib/schema';
 import CrudTable from '@/modules/crud-module/crud-table';
-import { projectsSchema } from '@/lib/validations';
 import { columns } from '@/modules/forms/projects/columns';
 import ProjectFields from '@/modules/forms/projects/fields';
 
-export type Payment = {
-  id: string;
-  amount: number;
-  status: 'pending' | 'processing' | 'success' | 'failed';
-  email: string;
-};
-
 function ProjectManager() {
   const entity = 'projects';
-  const endpoint = 'projects';
-
-  const searchConfig = {
-    displayLabels: ['name', 'surname'],
-    searchFields: 'email,name,surname',
-    outputValue: '_id',
-  };
-
-  const PANEL_TITLE = 'Project Panel';
-  const dataTableTitle = 'Project Lists';
-  const entityDisplayLabels = ['email'];
-
-  const ADD_NEW_ENTITY = 'Add new project';
-  const DATATABLE_TITLE = 'Projects List';
-  const ENTITY_NAME = 'project';
-  const CREATE_ENTITY = 'Create project';
-  const UPDATE_ENTITY = 'Update project';
 
   const initialState = {
     key: '',
@@ -40,26 +17,33 @@ function ProjectManager() {
     periodEnd: '',
     periodStart: '',
     description: '',
-  }
+  };
+
+  const Labels = {
+    PANEL_TITLE: 'Project Panel',
+    DATATABLE_TITLE: 'Projects List',
+    ADD_NEW_ENTITY: 'Add new project',
+    ENTITY_NAME: 'project',
+    CREATE_ENTITY: 'Create project',
+    UPDATE_ENTITY: 'Update project',
+
+    RECORD_ENTITY: 'record_user',
+  };
+
+  const configPage = {
+    entity,
+    ...Labels,
+  };
 
   const config = {
-    entity,
     columns,
-    endpoint,
-    PANEL_TITLE,
-    ENTITY_NAME,
     initialState,
-    searchConfig,
-    CREATE_ENTITY,
-    UPDATE_ENTITY,
-    ADD_NEW_ENTITY,
-    dataTableTitle,
-    DATATABLE_TITLE,
-    entityDisplayLabels,
+    ...configPage,
     formFields: ProjectFields,
+    statusData: projectStatus,
     formSchema: projectsSchema,
   };
-  return <CrudTable config={config} />
+  return <CrudTable config={config} />;
 }
 
 export default ProjectManager;

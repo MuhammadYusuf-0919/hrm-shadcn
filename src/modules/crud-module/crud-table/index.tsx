@@ -27,14 +27,14 @@ import {
   TableHead,
   TableHeader,
 } from '@/components/ui/table';
-import { Payment } from '@/pages/user-manager';
+import { Payment } from '@/types';
+import { useDispatch } from 'react-redux';
+import { setConfig } from '@/redux/config';
 import { useFetchEntityQuery } from '@/redux/crud';
 import { DataTableToolbar } from './components/data-table-toolbar';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { DataTableSkeleton } from './components/data-table-skeleton';
 import { DataTablePagination } from './components/data-table-pagination';
-import { setConfig } from '@/redux/config';
-import { useDispatch } from 'react-redux';
 
 interface CrudTableProps {
   config: {
@@ -87,13 +87,13 @@ const CrudTable: React.FC<CrudTableProps> = ({ config }) => {
   return isLoading ? (
     <DataTableSkeleton columnCount={4} filterableColumnCount={2} />
   ) : (
-    <Card className="h-full">
+    <Card>
       <CardHeader className="p-4 md:p-6">
         <DataTableToolbar data={{ config, table }} />
       </CardHeader>
       <CardContent className="py-0 px-4 md:px-6">
         <ScrollArea className="w-full h-[52vh] md:h-[58vh] rounded-md border block flex-grow">
-          <Table className="relative">
+          <Table className="`relative`">
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id}>
@@ -141,7 +141,7 @@ const CrudTable: React.FC<CrudTableProps> = ({ config }) => {
               )}
             </TableBody>
           </Table>
-          <ScrollBar className="!block" orientation="horizontal" />
+          <ScrollBar orientation="horizontal" />
         </ScrollArea>
       </CardContent>
       <CardFooter className="py-4">

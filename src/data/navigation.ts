@@ -20,6 +20,18 @@ export const navItems: NavItem[] = [
         label: "user",
     },
     {
+        title: "Task",
+        path: "/projects/1/tasks",
+        icon: "task",
+        label: "Tasks",
+    },
+    {
+        title: "Issue",
+        path: "/projects/1/issues",
+        icon: "issue",
+        label: "issue",
+    },
+    {
         title: "Your Work",
         path: "/your-work",
         icon: "calendar-user",

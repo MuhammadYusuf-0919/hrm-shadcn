@@ -1,9 +1,4 @@
 import {
-  types,
-  priorities,
-  projectStatus,
-} from '@/modules/crud-module/crud-table/data/data';
-import {
   FormItem,
   FormField,
   FormLabel,
@@ -24,12 +19,17 @@ import {
 } from '@/components/ui/select';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
+import { priorities } from '@/data';
 import Iconify from '@/components/iconify';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { CardContent } from '@/components/ui/card';
 import { Textarea } from '@/components/ui/textarea';
 import { Calendar } from '@/components/ui/calendar';
+import { projectStatus } from '@/data/status';
+import { projectType } from '@/data/types';
+import Label from '@/components/custom-label';
+import { statusColors } from '@/utils/statusColors';
 
 function ProjectFields({ data }: { data: any }) {
   const { form, loading } = data;
@@ -37,17 +37,17 @@ function ProjectFields({ data }: { data: any }) {
   return (
     <CardContent className="grid grid-cols-1 sm:grid-cols-2 items-start gap-8 md:gap-10 lg:gap-16">
       <div className="grid items-center gap-4">
-        {/* name */}
+        {/* project name */}
         <FormField
-          name="name"
+          name="projectName"
           control={control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Name</FormLabel>
+              <FormLabel>Project Name</FormLabel>
               <FormControl>
                 <Input
                   disabled={loading}
-                  placeholder="Enter user name"
+                  placeholder="Enter project name"
                   {...field}
                 />
               </FormControl>
@@ -55,14 +55,14 @@ function ProjectFields({ data }: { data: any }) {
             </FormItem>
           )}
         />
-        <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-4">
-          {/* type */}
+        <div className="grid grid-cols-1 md:grid-cols-2 items-baseline gap-4">
+          {/* project type */}
           <FormField
-            name="type"
+            name="projectType"
             control={control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Type</FormLabel>
+                <FormLabel>Project Type</FormLabel>
                 <Select
                   disabled={loading}
                   value={field.value}
@@ -73,13 +73,13 @@ function ProjectFields({ data }: { data: any }) {
                     <SelectTrigger>
                       <SelectValue
                         defaultValue={field.value}
-                        placeholder="Select a type"
+                        placeholder="Select a project type"
                       />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
                     {/* @ts-ignore  */}
-                    {types.map(({ label, value }) => (
+                    {projectType.map(({ label, value }) => (
                       <SelectItem key={value} value={value}>
                         {label}
                       </SelectItem>
@@ -147,7 +147,7 @@ function ProjectFields({ data }: { data: any }) {
             </FormItem>
           )}
         />
-        <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 items-baseline gap-4">
           {/* priority */}
           <FormField
             name="priority"
@@ -205,9 +205,20 @@ function ProjectFields({ data }: { data: any }) {
                   </FormControl>
                   <SelectContent>
                     {/* @ts-ignore  */}
-                    {projectStatus.map(({ label, value }) => (
+                    {projectStatus.map(({ label, value, icon }) => (
                       <SelectItem key={value} value={value}>
-                        {label}
+                        <Label
+                          startIcon={
+                            <Iconify
+                              width={20}
+                              icon={`radix-icons:${icon}`}
+                              className="mr-2 h-4 w-4 text-muted-foreground"
+                            />
+                          }
+                          color={statusColors(value)}
+                        >
+                          {label}
+                        </Label>
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -217,7 +228,7 @@ function ProjectFields({ data }: { data: any }) {
             )}
           />
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 items-center gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 items-baseline gap-4">
           {/* period start */}
           <FormField
             name="periodStart"
