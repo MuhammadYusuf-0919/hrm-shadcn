@@ -40,7 +40,12 @@ export function UserAuthForm() {
   } = formMethods;
 
   const onSubmit = async (formData: FormData) => {
+    setIsLoading(true)
     try {
+      reset(initialState)
+      console.log(formData)
+      toast.success('Done!')
+      navigate('/')
       // const mutationPromise = addEntity({ entity, data: formData });
       // await Promise.all([
       //   toast.promise(mutationPromise, {
@@ -54,6 +59,8 @@ export function UserAuthForm() {
       // ]);
     } catch (error) {
       console.error('Error:', error);
+    } finally {
+      setIsLoading(false)
     }
   };
   const onError = (errors: any) => {

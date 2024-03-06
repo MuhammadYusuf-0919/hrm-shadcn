@@ -33,7 +33,7 @@ export const userStatus = [
         icon: 'check-circled',
     },
     {
-        value: 'in-active',
+        value: 'in active',
         label: 'In Active',
         icon: 'minus-circled',
     },

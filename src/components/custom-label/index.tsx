@@ -3,10 +3,11 @@ import StyledLabel from './style';
 
 interface LabelProps {
   children: ReactNode;
-  color?: string;
+  color?: 'default' | 'warning' | 'success' | 'error' | 'info'; 
   variant?: string;
   startIcon?: ReactNode;
   endIcon?: ReactNode;
+  className?: string; 
   sx?: string;
   // Other props
   [key: string]: any;
@@ -31,8 +32,8 @@ const Label = forwardRef<HTMLSpanElement, LabelProps>(
     return (
       <StyledLabel
         {...other}
-        ownerState={{ color, variant, className }}
-        className={`${startIcon ? 'pl-3' : ''} ${endIcon ? 'pr-3' : ''}`}
+        ownerState={{ color, variant, className: className || '' }} // Ensure className is not undefined
+        className={`${startIcon ? 'pl-3' : ''} ${endIcon ? 'pr-3' : ''} ${className || ''}`} // Concatenate className
       >
         {startIcon && (
           <span className={`mr-3`} style={iconStyle}>

@@ -27,6 +27,7 @@ import { Button } from '@/components/ui/button';
 import { CardContent } from '@/components/ui/card';
 import { Calendar } from '@/components/ui/calendar';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { positionUser } from '@/data';
 
 function UserFields({ data }: { data: any }) {
   const { form, loading } = data;
@@ -237,13 +238,11 @@ function UserFields({ data }: { data: any }) {
                     </FormControl>
                     <SelectContent>
                       {/* @ts-ignore  */}
-                      {['Developer', 'Tester', 'Comtor', 'HR', 'BrSE'].map(
-                        (label) => (
-                          <SelectItem key={label} value={label}>
-                            {label}
-                          </SelectItem>
-                        )
-                      )}
+                      {positionUser.map(({ label, value }) => (
+                        <SelectItem key={value} value={value}>
+                          {label}
+                        </SelectItem>
+                      ))}
                     </SelectContent>
                   </Select>
                   <FormMessage />

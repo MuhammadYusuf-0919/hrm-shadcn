@@ -19,6 +19,7 @@ import { Badge } from '@/components/ui/badge';
 import { PasswordInput } from '@/components/custom-password-input';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { positionUser } from '@/data';
 
 function AccountInfo({ data }: { data: any }) {
   const { form } = data;
@@ -192,13 +193,11 @@ function AccountInfo({ data }: { data: any }) {
                   </FormControl>
                   <SelectContent>
                     {/* @ts-ignore  */}
-                    {['Developer', 'Tester', 'Comtor', 'HR', 'BrSE'].map(
-                      (label) => (
-                        <SelectItem key={label} value={label}>
-                          {label}
-                        </SelectItem>
-                      )
-                    )}
+                    {positionUser.map(({ label, value }) => (
+                      <SelectItem key={value} value={value}>
+                        {label}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
                 <FormMessage />

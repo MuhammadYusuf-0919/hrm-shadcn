@@ -23,7 +23,7 @@ export const usersSchema = z.object({
   username: commonStringSchema.regex(USER_REGEX),
   phoneNumber: commonStringSchema.regex(PHONE_REGEX),
   email: commonStringSchema.email().regex(EMAIL_REGEX),
-  position: z.enum(['Developer', 'Tester', 'Comtor', 'HR', 'BrSE']),
+  position: z.enum(['developer', 'tester', 'comtor', 'hr', 'brse']),
   birthday: z.date().refine(data => isValidDate(data), { message: 'Please provide a valid birthday' }),
 });
 
@@ -37,7 +37,7 @@ export const profileSchema = z.object({
   password: commonStringSchema.regex(PWD_REGEX),
   phoneNumber: commonStringSchema.regex(PHONE_REGEX),
   email: commonStringSchema.email().regex(EMAIL_REGEX),
-  position: z.enum(['Developer', 'Tester', 'Comtor', 'HR', 'BrSE']),
+  position: z.enum(['developer', 'tester', 'comtor', 'hr', 'brse']),
   birthday: z.date().refine(data => isValidDate(data), { message: 'Please provide a valid birthday' }),
 });
 
@@ -63,7 +63,7 @@ const commonTaskSchema = z.object({
   assignee: commonStringSchema,
   taskName: commonStringSchema,
   description: z.string().min(3).max(500, { message: MIN_MAX_MESSAGE }),
-  status: z.enum(['not-started', 'pending', 'processing']),
+  status: z.enum(['not started', 'pending', 'processing']),
   category: z.enum(['low', 'medium', 'high', 'urgent']),
   dueDate: z.date().refine((data) => data > new Date(), { message: END_DATE_AFTER_START_DATE_MESSAGE }),
   actualEndDate: z.date().refine((data) => data > new Date(), { message: END_DATE_AFTER_START_DATE_MESSAGE }),
@@ -88,22 +88,22 @@ const commonContractSchema = z.object({
   salary: commonStringSchema,
   contractName: commonStringSchema,
   contractNumber: commonStringSchema,
-  staffType: z.enum(['part-time', 'full-time']),
+  staffType: z.enum(['part time', 'full time']),
   contractType: z.enum(['probationary', 'offical']),
-  paymentMethod: z.enum(['bank-transfer', 'receive-directly']),
+  paymentMethod: z.enum(['bank transfer', 'receive directly']),
   note: z.string().min(3).max(500, { message: MIN_MAX_MESSAGE }),
-  contractPeriod: z.enum(['6-months', '1-year', '2-years', 'open-ended-contract']),
+  contractPeriod: z.enum(['6 months', '1 year', '2 years', 'open-ended contract']),
 });
 
 const commonAbsenceSchema = z.object({
   offDay: z.date(),
   inForm: commonStringSchema,
   approver: z.enum(['approver1', 'approver2', 'approver3']),
-  sessionOff: z.enum(['morning', 'afternoon', 'full-day']),
+  sessionOff: z.enum(['morning', 'afternoon', 'full day']),
   requester: z.enum(['requester1', 'requester2', 'requester3']),
   note: z.string().min(3).max(500, { message: MIN_MAX_MESSAGE }),
   reason: z.string().min(3).max(500, { message: MIN_MAX_MESSAGE }),
-  dayOffType: z.enum(['sick-leave', 'unpaid-leave', 'maternity-leave', 'wedding-leave', 'paid-leave', 'paternity-leave', 'composionate-leave']),
+  dayOffType: z.enum(['sick leave', 'unpaid leave', 'maternity leave', 'wedding leave', 'paid leave', 'paternity leave', 'composionate leave']),
 });
 
 export const loginSchema = z.object({

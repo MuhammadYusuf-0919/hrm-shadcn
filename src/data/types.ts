@@ -38,41 +38,41 @@ export const contractType = [
 export const staffType = [
     {
         label: 'Part time',
-        value: 'part-time',
+        value: 'parttime',
     },
     {
         label: 'Full time',
-        value: 'full-time',
+        value: 'fulltime',
     }
 ];
 
 export const dayOffType = [
     {
-        value: 'sick-leave',
+        value: 'sick leave',
         label: 'Sick Leave',
     },
     {
-        value: 'unpaid-leave',
+        value: 'unpaid leave',
         label: 'Unpaid Leave',
     },
     {
-        value: 'maternity-leave',
+        value: 'maternity leave',
         label: 'Maternity Leave',
     },
     {
-        value: 'wedding-leave',
+        value: 'wedding leave',
         label: 'wedding Leave',
     },
     {
-        value: 'paid-leave',
+        value: 'paid leave',
         label: 'paid Leave',
     },
     {
-        value: 'paternity-leave',
+        value: 'paternity leave',
         label: 'Paternity Leave',
     },
     {
-        value: 'composionate-leave',
+        value: 'composionate leave',
         label: 'Composionate Leave',
     },
 ];

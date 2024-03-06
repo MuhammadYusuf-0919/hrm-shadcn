@@ -54,7 +54,7 @@ export const reasonBug = [
     icon: 'check-circled',
   },
   {
-    value: 'document-update',
+    value: 'document update',
     label: 'Document Update',
     icon: 'minus-circled',
   },
@@ -94,11 +94,11 @@ export const categoryTask = [
 export const paymentMethod = [
   {
     label: 'Bank Transfer',
-    value: 'bank-transfer',
+    value: 'bank transfer',
   },
   {
     label: 'Receive Directly',
-    value: 'receive-directly',
+    value: 'receive directly',
   },
 ];
 
@@ -113,7 +113,7 @@ export const sessionOff = [
   },
   {
     label: 'Full Day',
-    value: 'full-day',
+    value: 'full day',
   },
 ];
 
@@ -149,19 +149,42 @@ export const approver = [
 
 export const contractPeriod = [
   {
-    value: '6-months',
+    value: '6 months',
     label: '6 Months',
   },
   {
-    value: '1-year',
+    value: '1 year',
     label: '1 Year',
   },
   {
-    value: '2-years',
+    value: '2 years',
     label: '2 Years',
   },
   {
-    value: 'open-ended-contract',
+    value: 'open-ended contract',
     label: 'Open-ended Contract',
   }
 ];
+
+export const positionUser = [
+  {
+    value: 'developer',
+    label: 'Developer'
+  },
+  {
+    value: 'tester',
+    label: 'Tester'
+  },
+  {
+    value: 'comtor',
+    label: 'Comtor'
+  },
+  {
+    value: 'hr',
+    label: 'HR'
+  },
+  {
+    value: 'brse',
+    label: 'BrSE'
+  },
+]

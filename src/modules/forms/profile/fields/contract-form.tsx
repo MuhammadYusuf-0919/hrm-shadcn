@@ -32,7 +32,7 @@ import { FormData } from '@/types';
 import { useForm } from 'react-hook-form';
 import Iconify from '@/components/iconify';
 import { Input } from '@/components/ui/input';
-import { contractSchema } from '@/lib/schema';
+import { contractSchema, ContractsFormTypes } from '@/lib/schema';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { Calendar } from '@/components/ui/calendar';
@@ -40,7 +40,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { contractPeriod, paymentMethod } from '@/data';
 import { contractType, staffType } from '@/data/types';
 
-const initialState: Partial<FormData> = {
+const initialState: Partial<ContractsFormTypes> = {
   note: '',
   salary: '',
   signDay: '',
@@ -53,7 +53,7 @@ const initialState: Partial<FormData> = {
 };
 
 function ContractForm() {
-  const form = useForm<FormData>({
+  const form = useForm<ContractsFormTypes>({
     resolver: zodResolver(contractSchema),
     defaultValues: initialState,
   });
@@ -66,7 +66,7 @@ function ContractForm() {
   } = form;
   const [loading, setLoading] = React.useState<boolean>(false);
 
-  const onSubmit = (formData: FormData) => {
+  const onSubmit = (formData: ContractsFormTypes) => {
     setLoading(true);
     try {
       console.log(formData);
