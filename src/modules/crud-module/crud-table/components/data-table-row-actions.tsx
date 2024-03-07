@@ -1,5 +1,3 @@
-import { Row } from '@tanstack/react-table';
-import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuItem,
@@ -8,19 +6,21 @@ import {
   DropdownMenuShortcut,
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
-import Iconify from '@/components/iconify';
-import { useDeleteEntityMutation } from '@/redux/crud';
 import { toast } from 'sonner';
-import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/redux';
+import { Link } from 'react-router-dom';
+import Iconify from '@/components/iconify';
 import { setConfig } from '@/redux/config';
+import { Row } from '@tanstack/react-table';
+import { Button } from '@/components/ui/button';
+import { useDeleteEntityMutation } from '@/redux/crud';
+import { useDispatch, useSelector } from 'react-redux';
 
-interface DataTableRowActionsProps<TData> {
+interface DataTableRowActionsProps<TData extends { id: string }> {
   row: Row<TData>;
 }
 
-export function DataTableRowActions<TData>({
+export function DataTableRowActions<TData extends { id: string }>({
   row,
 }: DataTableRowActionsProps<TData>) {
   const dispatch = useDispatch();
@@ -30,15 +30,19 @@ export function DataTableRowActions<TData>({
 
   const handleDelete = async () => {
     try {
-      await toast.promise(deleteEntity({ entity, id: row.original?.id }), {
-        loading: 'Deleting item...',
-        success: 'Item deleted successfully',
-        error: 'Failed to delete item',
-      });
+      if (row.original?.id) {
+        await toast.promise(deleteEntity({ entity, id: row.original.id }), {
+          loading: 'Deleting item...',
+          success: 'Item deleted successfully',
+          error: 'Failed to delete item',
+        });
+      } else {
+        console.error('Error: ID is missing or undefined.');
+      }
     } catch (error) {
       console.error('Error deleting item:', error);
     }
-  };
+  };  
 
   const handleUpdate = async () => {
     dispatch(
